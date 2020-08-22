@@ -1,12 +1,16 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const router = require('./api')
+const db = require('./db')
 
 const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/api', router)
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -22,4 +26,15 @@ app.use(function(req, res, next) {
   });
 
 const port = 3000;
-app.listen(port, () => console.log(`Listening on ${port}`))
+
+const init = async()=> {
+  try {
+    await db.syncAndSeed();
+    app.listen(port, ()=> console.log(`listening on port ${port}`));
+  }
+  catch(ex){
+    console.log(ex);
+  }
+};
+
+init();

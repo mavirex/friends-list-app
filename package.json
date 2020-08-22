@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "webpack",
     "start:dev": "npm run start-server & npm run build",
     "start-server": "nodemon server.js",
     "build": "webpack -w",
@@ -12,7 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
